@@ -20,13 +20,16 @@ def get_tasks_by_build(body: TaskRequestBody.GetTasksByBuild,
                        task_service: Annotated[TasksService, Depends(get_tasks_service)],
                        builds_service: Annotated[BuildsService, Depends(get_builds_service)]):
     try:
+        # get the main task sequence from build.yaml
         build_task_names: List[str] = builds_service.get_tasks_by_build_name(body.build)
-    except (BuildDoesNotExist, BuildTooManyValuesError) as e:
-        raise HTTPException(400, e.get_message())
 
-    try:
+        # Based on the main task sequence, we look for all dependencies
+        # and put them in the correct execution sequence
         tasks: List[str] = task_service.get_tasks_with_dependencies(build_task_names)
-    except (TaskDoesNotExist, TaskTooManyValuesError) as e:
-        raise HTTPException(400, e.get_message())
+    except (TaskTooManyValuesError,
+            BuildTooManyValuesError) as e:
+        raise HTTPException(500, e.get_message())
+    except (TaskDoesNotExist, BuildDoesNotExist) as e:
+        raise HTTPException(404, e.get_message())
 
     return tasks
