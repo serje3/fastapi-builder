@@ -1,0 +1,6 @@
+.idea
+venv
+svenv
+svenv/**
+.pytest_cache
+.pytest_cache/**
