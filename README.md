@@ -32,9 +32,9 @@ that accepts JSON
 ```
 
 ### Testing
-To test the application, the pytest module is used here.
-Tests written in the "tests" folder
+After launching the application, in your browser you can go to 127.0.0.1:8000/docs and test it.
 
+Automated tests written in the "tests" folder.
 You can run tests by this command
 #### Windows
 ```shell
