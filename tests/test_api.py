@@ -23,7 +23,7 @@ def test_get_tasks_by_build_does_not_exist():
         'build': 'test_build_NOT_EXISTING_BLABLABLABLALBALLAB'
     })
 
-    assert response.status_code == 400
+    assert response.status_code == 404
     assert response.json() == {
         'detail': "Build named 'test_build_NOT_EXISTING_BLABLABLABLALBALLAB' does not exist"
     }
@@ -32,7 +32,7 @@ def test_get_tasks_by_build_does_not_exist():
         'build': 'test_build_with_not_existing_task'
     })
 
-    assert response.status_code == 400
+    assert response.status_code == 404
     assert response.json() == {
         'detail': "Task named 'this_task_does_not_exist' does not exist"
     }
@@ -43,7 +43,7 @@ def test_get_tasks_by_build_too_many_values_error():
         'build': 'test_build_too_many_values'
     })
 
-    assert response.status_code == 400
+    assert response.status_code == 500
     assert response.json() == {
         'detail': "Build named 'test_build_too_many_values' found more than one"
     }
@@ -52,7 +52,7 @@ def test_get_tasks_by_build_too_many_values_error():
         'build': 'test_build_task_too_many_values'
     })
 
-    assert response.status_code == 400
+    assert response.status_code == 500
     assert response.json() == {
         'detail': "Task named 'this_task_duplicated' found more than one"
     }
